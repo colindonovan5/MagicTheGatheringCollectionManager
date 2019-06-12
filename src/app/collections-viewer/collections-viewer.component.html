@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12-sm">
+      <h1>Collections</h1>
+      <div *ngFor="let collection of collections.CardCollections">
+        <mat-card>
+          <h2>{{collection.name}} - ${{(collection.getPrice() | number)}}</h2>     
+          <button mat-stroked-button (click)="openRenameDialog(collection)">Rename</button>     
+          <button mat-stroked-button (click)="openDialog(collection)">Delete</button>         
+
+          <div class="row">
+            <div class="col-sm-2">
+                <h4>Average CMC: {{(collection.getAverageCMC() | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Creature')" class="col-sm-2">
+              <h4>Creatures: {{(collection.amountOfCreature | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Planeswalker')" class="col-sm-2">
+              <h4>Planeswalkers: {{(collection.amountOfPlaneswalker | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Sorcery')" class="col-sm-2">
+              <h4>Sorceries: {{(collection.amountOfSorcery | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Instant')" class="col-sm-2">
+              <h4>Instants: {{(collection.amountOfInstant | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Artifact')" class="col-sm-2">
+              <h4>Artifacts: {{(collection.amountOfArtifact | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Enchantment')" class="col-sm-2">
+              <h4>Enchantments: {{(collection.amountOfEnchantment | number)}}</h4>
+            </div>
+            <div *ngIf="collection.getTypeAmount('Land')" class="col-sm-2">
+              <h4>Lands: {{(collection.amountOfLand | number)}}</h4>
+            </div>
+  
+          </div>
+          
+          <mat-divider></mat-divider>
+          <br>
+          <div *ngFor="let card of collection.collectionArray">
+            <div *ngIf='!card.card_faces' class="row">         
+              <div *ngIf="card.image_uris.png"class="col-sm-2">
+                <a href="{{card.purchase_uris.tcgplayer}}" target="_blank">
+                  <img class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
+                </a>     
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-3">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr *ngIf='card.name' class="info">
+                        <td>{{card.name}}</td>
+                      </tr>  
+                      <tr *ngIf='card.set_name' class="info">
+                        <td>Set: {{card.set_name}}</td>
+                      </tr>    
+                      <tr *ngIf='card.type_line' class="info">
+                        <td>Card Type: {{card.type_line}}</td>
+                      </tr>
+                      <tr *ngIf='card.colors && card.colors.length >= 1' class="info">
+                        <td>Colors: {{card.colors}}</td>
+                      </tr>
+                      <tr *ngIf='card.colors && card.colors.length === 0' class="info">
+                        <td>Colors: Colorless</td>
+                      </tr>
+                      <tr *ngIf='card.prices.usd' class="info">
+                        <td>
+                          <a href="{{card.purchase_uris.tcgplayer}}" class="link" target="_blank">
+                            TCGPlayer Price: ${{card.prices.usd}}             
+                          </a>
+                        </td>                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <br><br><br><br>
+                <div class="col-sm-3">
+                  <button mat-stroked-button (click)='collections.removeCard(card, collection)'>Remove {{card.name}}</button>
+                </div>
+              </div>
+            </div>  
+            <br>
+          </div>
+        </mat-card>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </div>
+    
+</div>
