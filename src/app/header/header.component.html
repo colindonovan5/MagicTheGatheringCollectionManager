@@ -2,18 +2,18 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand">
-  
+
             </a>
             <span class="navbar-brand">Magic Collection</span>
         </div>
         <ul class="nav navbar-nav">
             <li><a [routerLink]="['/search']">
-              Search <span class="sr-only">(current)</span>
+                Search <span class="sr-only">(current)</span>
             </a></li>
             <li><a [routerLink]="['/collection']">Collection</a></li>
             <li class="dropdown" dropdown> <!-- {1} -->
                 <a dropdownToggle role="button"> <!-- {2} -->
-                  Sets <span class="caret"></span></a>
+                    Sets <span class="caret"></span></a>
                 <ul *dropdownMenu class="dropdown-menu"> <!-- {3} -->
                     <li *ngFor='let set of sets'><a [routerLink]="['/sets', set.id]">{{set.name}}</a></li>
                 </ul>
@@ -22,8 +22,16 @@
         <ul class="nav navbar-nav navbar-right">
             <li><button class="collectionButton" mat-button (click)='openDialog()'><a><span class="glyphicon glyphicon-plus"></span> Create Collection</a></button></li>
         </ul>
+        <ul *ngIf='user.uid === "Not logged in"' class="nav navbar-nav navbar-right">
+            <li><button class="collectionButton" mat-button (click)='loginUser()'><a><span class="glyphicon glyphicon-plus"></span>Login</a></button></li>
+        </ul>
+
+        <ul *ngIf='user.uid != "Not logged in"' class="nav navbar-nav navbar-right">
+            <li><button class="collectionButton" mat-button (click)='logoutUser()'><a><span class="glyphicon glyphicon-plus"></span>Logout {{user.displayName}}</a></button></li>
+        </ul>
     </div>
-  </nav>
+</nav>
+
 
 
   

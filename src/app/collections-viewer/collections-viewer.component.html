@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-12-sm">
       <h1>Collections</h1>
-      <div *ngFor="let collection of collections.CardCollections">
+      <div *ngFor="let collection of collections.CurrentUserCollections">
         <mat-card>
-          <h2>{{collection.name}} - ${{(collection.getPrice() | number)}}</h2>     
+          <h2>{{collection.name}} - <a target="_blank" href="{{collection.getMassEntryLink()}}">${{(collection.getPrice() | number)}}</a></h2>     
           <button mat-stroked-button (click)="openRenameDialog(collection)">Rename</button>     
           <button mat-stroked-button (click)="openDialog(collection)">Delete</button>         
 
@@ -33,21 +33,32 @@
             <div *ngIf="collection.getTypeAmount('Land')" class="col-sm-2">
               <h4>Lands: {{(collection.amountOfLand | number)}}</h4>
             </div>
-  
           </div>
           
           <mat-divider></mat-divider>
           <br>
+          
           <div *ngFor="let card of collection.collectionArray">
-            <div *ngIf='!card.card_faces' class="row">         
-              <div *ngIf="card.image_uris.png"class="col-sm-2">
-                <a href="{{card.purchase_uris.tcgplayer}}" target="_blank">
-                  <img class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
-                </a>     
-              </div>
+                <div *ngIf='!card.card_faces' >         
+                    <div *ngIf="card.image_uris.png"class="col-sm-2">
+                      <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" target="_blank">
+                        <img class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
+                      </a>     
+                    </div>
+                  </div>
+                  <div *ngIf='card.card_faces'>
+                    <div *ngIf="card.card_faces.length" class="col-sm-2">
+                      <div *ngIf="card.card_faces.length === 2">
+                        <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" target="_blank">
+                          <img *ngIf='card.card_faces[0].image_uris' class="img-responsive img-rounded" src='{{card.card_faces[0].image_uris.png}}'>
+                          <img *ngIf='!card.card_faces[0].image_uris && card.image_uris.png' class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
+                        </a>     
+                      </div>
+                    </div>
+                  </div>              
               <br>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <table class="table table-bordered">
                     <tbody>
                       <tr *ngIf='card.name' class="info">
@@ -65,12 +76,19 @@
                       <tr *ngIf='card.colors && card.colors.length === 0' class="info">
                         <td>Colors: Colorless</td>
                       </tr>
-                      <tr *ngIf='card.prices.usd' class="info">
-                        <td>
-                          <a href="{{card.purchase_uris.tcgplayer}}" class="link" target="_blank">
-                            TCGPlayer Price: ${{card.prices.usd}}             
-                          </a>
-                        </td>                        
+                      <tr *ngIf='card.prices' class="info">           
+                          <td *ngIf='card.prices.usd'>
+                            <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" class="link" target="_blank">
+                              TCGPlayer Price: ${{card.prices.usd}}             
+                            </a>
+                          </td>
+                      </tr>
+                      <tr *ngIf='card.prices' class='info'>
+                          <td *ngIf='card.prices.usd_foil && !card.prices.usd'>
+                              <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" class="link" target="_blank">
+                                TCGPlayer Price: ${{card.prices.usd_foil}}             
+                              </a>
+                          </td>
                       </tr>
                     </tbody>
                   </table>
@@ -80,7 +98,6 @@
                   <button mat-stroked-button (click)='collections.removeCard(card, collection)'>Remove {{card.name}}</button>
                 </div>
               </div>
-            </div>  
             <br>
           </div>
         </mat-card>

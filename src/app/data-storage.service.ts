@@ -3,17 +3,34 @@ import { HttpClient } from '@angular/common/http';
 import { CollectionController } from './collection.service';
 import { Collection } from './collection';
 import { map } from 'rxjs/operators';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStorageService {
 
-  constructor(private http: HttpClient) { 
-    
-  }
+  //userId:string;
 
+  constructor(private http: HttpClient, private db: AngularFireDatabase, private afAuth: AngularFireAuth, private userService: UserService) { 
+    //this.afAuth.authState.subscribe(user => {
+    //   if(user){
+    //     this.userId = user.uid;
+      // }
+     //});
+   }
+ 
+  // getCollectionsList(): AngularFireList<Collection[]>{
+   //  if(!this.userId) return;
+   //  this.dbCollections = this.db.list('collections/${this.userId}');
+   //  return this.dbCollections;
+  // }
+ 
+   //createCollection(collections: Collection[]){
+    // this.dbCollections.push(collections);
+   //}
 
   storeCollections(collections: Collection[]){
     for(let collection of collections){
@@ -24,8 +41,10 @@ export class DataStorageService {
       collection.getTypeAmount("Sorcery");
       collection.getTypeAmount("Instant");
       collection.getAverageCMC();
+      collection.getMassEntryLink();
       collection.getPrice();
     }
+
     this.http.put("https://magic-collection-database.firebaseio.com/collections.json", collections).subscribe(result => {
       console.log(result);
     });
@@ -35,10 +54,9 @@ export class DataStorageService {
     return this.http.get<Collection[]>('https://magic-collection-database.firebaseio.com/collections.json').pipe(
       map(rawCollectionArray => {
         return rawCollectionArray.map(rawCollection => {
-          return new Collection(rawCollection.name, rawCollection.collectionArray);
+          return new Collection(rawCollection.UserID, rawCollection.name, rawCollection.collectionArray);
         });
       })
     );
   }
-
 }

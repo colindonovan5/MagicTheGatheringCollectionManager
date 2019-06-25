@@ -43,7 +43,7 @@ export class CollectionManagerComponent implements OnInit {
       if(result != null)
       {
         console.log('The dialog was closed');
-        for(let collection of this.collections.CardCollections){
+        for(let collection of this.collections.CurrentUserCollections){
           if(collection.name === result){
             this.collectionToAddTo = collection;
             this.collections.currentCollection = this.collectionToAddTo;

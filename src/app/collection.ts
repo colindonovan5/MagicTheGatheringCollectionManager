@@ -1,5 +1,8 @@
 import { Card } from 'scryfall-sdk';
 import { DataStorageService } from './data-storage.service';
+import { UserService } from './user.service';
+import { Observable } from 'rxjs';
+import { stringify } from '@angular/compiler/src/util';
 
 export class Collection {
     public name: string;
@@ -13,24 +16,38 @@ export class Collection {
     private amountOfArtifact: number = 0;
     private amountOfEnchantment: number = 0;
     private amountOfLand: number = 0;
-
-    public constructor(name: string, collectionCards?:Card[]) {
+    public UserID: string;
+    public massEntryLink: string;
+    public constructor(userID: string, name: string, collectionCards?:Card[]) {
         this.name = name;
         this.totalPrice = 0;
         this.collectionArray = [];
         if(collectionCards != null){
             this.collectionArray = collectionCards;
         }
+        this.UserID = userID;
     }
 
      getPrice(): number{
          this.totalPrice = 0;
         for(const card of this.collectionArray) {
-            if(card.prices.usd){
-                this.totalPrice += +card.prices.usd;
+            if(card.prices){
+                if(card.prices.usd){
+                    this.totalPrice += +card.prices.usd;
+                }else if(card.prices.usd_foil && !card.prices.usd){
+                    this.totalPrice += +card.prices.usd_foil;
+                }
             }
         }
         return this.totalPrice;
+    }
+    
+    getMassEntryLink(): string{
+        this.massEntryLink = "http://store.tcgplayer.com/massentry?partner=MTGCManager&utm_campaign=affiliate&utm_medium=MTGCManager&utm_source=MTGCManager&c=";
+        for(let card of this.collectionArray){
+            this.massEntryLink = this.massEntryLink.concat("1 " + card.name + "||").replace(" ", "%20");
+        }
+        return this.massEntryLink;
     }
 
     getAverageCMC(): number{

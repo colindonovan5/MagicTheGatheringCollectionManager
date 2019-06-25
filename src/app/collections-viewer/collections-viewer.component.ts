@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { MatDialog } from '@angular/material/dialog';
 import { DataStorageService } from '../data-storage.service';
 import { RenameDeckDialogComponent } from '../rename-deck-dialog/rename-deck-dialog.component';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-collections-viewer',
@@ -16,10 +17,10 @@ export class CollectionsViewerComponent implements OnInit {
 
   confirmed: boolean = true;
   deckname: string = "";
-  constructor(private collections: CollectionController, public changeDetector: ChangeDetectorRef, public dialog: MatDialog, private dataService: DataStorageService) { 
-    collections.loadStorage();
+  constructor(public collections: CollectionController, public changeDetector: ChangeDetectorRef, public dialog: MatDialog, private dataService: DataStorageService, public user: UserService) { 
+    this.collections.loadStorage();
+    
   }
-
 
   openDialog(collectionToDelete: Collection): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -56,6 +57,7 @@ export class CollectionsViewerComponent implements OnInit {
     });
   }
 
+  
 
   ngOnInit(){
 

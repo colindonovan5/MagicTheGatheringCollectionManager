@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as Scry from "scryfall-sdk";
 import { CollectionController } from '../collection.service';
-import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,18 +13,22 @@ export class SearchBarComponent implements OnInit {
   cards: string[] = []
   cardResults: Scry.Card[] = [];
 
-  constructor(private collection: CollectionController, private cd: ChangeDetectorRef, public auth: UserService) {
+  constructor(private collections: CollectionController, private cd: ChangeDetectorRef) {
     Scry.Catalog.cardNames().then(results => {
       for(let card of results){
         this.cards.push(card);
       } 
     });
+    this.collections.loadStorage();
+
   }
 
   ngOnInit() {
 
   }
   
+
+
   searchForCards(query: string){
     this.cardResults = [];
 
@@ -34,5 +37,4 @@ export class SearchBarComponent implements OnInit {
       this.cd.detectChanges();
     });
   }
-
 }

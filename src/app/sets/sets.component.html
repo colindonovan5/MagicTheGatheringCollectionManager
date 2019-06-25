@@ -1,18 +1,60 @@
-<div *ngFor="let card of setCards">
-  <div class="row">
-    <div class="col-sm-8">
-      <div *ngIf="card.image_uris.png"class="col-sm-3">
-        <a href="{{card.purchase_uris.tcgplayer}}" target="_blank">
-          <img class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
-        </a>
-             
-      </div>
-      <div class="col-sm-3">
-        <br><br><br><br>
-          <app-collection-manager *ngIf="[card]" [card]=card></app-collection-manager>
+<div class="container">
+  <div *ngFor="let card of setCards">
+      <div *ngIf='!card.card_faces'>         
+          <div *ngIf="card.image_uris.png"class="col-sm-3">
+            <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" target="_blank">
+              <img class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
+            </a>     
+          </div>
         </div>
-    </div>
-  </div>
-<br>
+        <div *ngIf='card.card_faces'>
+            <div *ngIf="card.card_faces.length === 2" class="col-sm-3">
+              <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" target="_blank">
+                <img *ngIf='card.card_faces[0].image_uris' class="img-responsive img-rounded" src='{{card.card_faces[0].image_uris.png}}'>
+                <img *ngIf='!card.card_faces[0].image_uris && card.image_uris.png' class="img-responsive img-rounded" src='{{card.image_uris.png}}'>
+              </a>     
+            </div>
+          </div>
+          <br><br><br><br><br>
+          <div class="row">
+            <div class="col-sm-4">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr *ngIf='card.name' class="info">
+                    <td>{{card.name}}</td>
+                  </tr>  
+                  <tr *ngIf='card.set_name' class="info">
+                      <td>Set: {{card.set_name}}</td>
+                    </tr>    
+                  <tr *ngIf='card.type_line' class="info">
+                    <td>Card Type: {{card.type_line}}</td>
+                  </tr>
+                  <tr *ngIf='!card.card_faces && card.colors.length >= 1' class="info">
+                    <td>Colors: {{card.colors}}</td>
+                  </tr>
+                  <tr *ngIf='!card.card_faces && card.colors.length === 0' class="info">
+                      <td>Colors: Colorless</td>
+                    </tr>
+                  <tr *ngIf='card.prices && card.prices.usd != null' class="info">           
+                      <td>
+                        <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" class="link" target="_blank">
+                          TCGPlayer Price: ${{card.prices.usd}}             
+                        </a>
+                      </td>
+                  </tr>
+                  <tr *ngIf='card.prices' class='info'>
+                      <td *ngIf='card.prices.usd_foil && !card.prices.usd'>
+                          <a href="{{collections.makeAffiliateLink(card.purchase_uris.tcgplayer)}}" class="link" target="_blank">
+                            TCGPlayer Price: ${{card.prices.usd_foil}}             
+                          </a>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+            <app-collection-manager *ngIf="[card]" [card]=card></app-collection-manager>
+          </div>
+    <br>
+    </div>      
 </div>
 

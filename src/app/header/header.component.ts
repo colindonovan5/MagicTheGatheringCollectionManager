@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CollectionController } from '../collection.service';
 import {MatDialog} from '@angular/material/dialog';
 import { NewDeckDialogComponent } from '../new-deck-dialog/new-deck-dialog.component';
-import { DataStorageService } from '../data-storage.service';
-import { Sets, Catalog, Set } from 'scryfall-sdk';
+import { Sets, Set } from 'scryfall-sdk';
 import { UserService } from '../user.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   deckname: string;
   sets: Set[] = [];
-  constructor(public collections: CollectionController, public dialog: MatDialog) {
+  constructor(public collections: CollectionController, public dialog: MatDialog, public user: UserService) {
 
   }
 
@@ -31,6 +30,18 @@ export class HeaderComponent implements OnInit {
 
   addNewCollection(name: string){
     this.collections.newCollection(name);
+    
+  }
+
+  
+  async loginUser(){
+    await this.user.login();
+    this.collections.loadStorage();
+  }
+
+  async logoutUser(){
+    await this.user.logOut();
+    this.collections.loadStorage();
   }
 
   openDialog(): void {
@@ -45,8 +56,9 @@ export class HeaderComponent implements OnInit {
         console.log('The dialog was closed');
         this.deckname = result;
         this.addNewCollection(this.deckname);
+
       }
-      
+
     });
   }
   
