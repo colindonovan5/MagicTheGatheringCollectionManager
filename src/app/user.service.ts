@@ -34,7 +34,7 @@ export class UserService {
       this.displayName = firebase.auth().currentUser.displayName;
     }else{
       this.uid = "Not logged in";
-      console.log("Oopsy");
+      console.log("Oopsy!");
     }
 
   }
