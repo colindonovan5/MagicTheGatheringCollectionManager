@@ -15,11 +15,7 @@ export class CardSearchComponent implements OnInit {
   ngOnInit() {
   }
 
-  searchForCards(){
-    this.cards = [];
-    Scry.Cards.search("id:c t:land").on("data", results => {
-      this.cards.push(results);
-    });
-  }
+  //IGNORE THIS COMPONENT, SHOULD BE DELETED BUT IT KEPT BREAKING EVERYTHING
+
 
 }

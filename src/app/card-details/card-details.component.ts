@@ -9,7 +9,7 @@ export class CardDetailsComponent implements OnInit {
 
 
   
-
+  //IGNORE THIS COMPONENT, SHOULD BE DELETED BUT IT KEPT BREAKING EVERYTHING
   constructor() { }
 
   ngOnInit() {

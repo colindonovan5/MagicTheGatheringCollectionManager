@@ -33,6 +33,7 @@ import { RankingsComponent } from './rankings/rankings.component';
 import { SetsComponent } from './sets/sets.component';
 import { UserService } from './user.service';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { ImportCollectionDialogComponent } from './import-collection-dialog/import-collection-dialog.component';
 
 const appRoutes: Routes = [
   {path: '', component:CollectionsViewerComponent},
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     ConfirmDialogComponent,
     RenameDeckDialogComponent,
     RankingsComponent,
-    SetsComponent
+    SetsComponent,
+    ImportCollectionDialogComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -98,7 +100,8 @@ const appRoutes: Routes = [
     NewDeckDialogComponent,
     AddCardDialogComponent,
     ConfirmDialogComponent,
-    RenameDeckDialogComponent
+    RenameDeckDialogComponent,
+    ImportCollectionDialogComponent
   ]
 })
 export class AppModule{ 

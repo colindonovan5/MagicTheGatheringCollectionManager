@@ -46,8 +46,8 @@ export class DataStorageService {
     }
 
     this.http.put("https://magic-collection-database.firebaseio.com/collections.json", collections).subscribe(result => {
-      console.log(result);
-    });
+
+  });
   }
 
   fetchCollections(){

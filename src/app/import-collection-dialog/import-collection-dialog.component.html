@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+    <p>Cards to import:</p>
+    <mat-form-field>
+      <textarea matInput [(ngModel)]="data.deckList"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data.deckList" cdkFocusInitial>Import</button>
+  </div>

@@ -2,11 +2,12 @@
   <div class="row">
     <div class="col-12-sm">
       <h1>Collections</h1>
-      <div *ngFor="let collection of collections.CurrentUserCollections">
+      <div *ngFor="let collection of collections.CurrentUserCollections.reverse()">
         <mat-card>
           <h2>{{collection.name}} - <a target="_blank" href="{{collection.getMassEntryLink()}}">${{(collection.getPrice() | number)}}</a></h2>     
           <button mat-stroked-button (click)="openRenameDialog(collection)">Rename</button>     
           <button mat-stroked-button (click)="openDialog(collection)">Delete</button>         
+          <button mat-stroked-button (click)="openImportDialog(collection)">Import</button>         
 
           <div class="row">
             <div class="col-sm-2">
