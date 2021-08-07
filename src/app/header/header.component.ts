@@ -20,26 +20,26 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     Sets.all().then(result => {
-      for(let set of result){
-        if(set.set_type === "core" || set.set_type === "commander" || set.set_type === "draft_innovation" || set.set_type === "masters" || set.set_type === "expansion"){
+      for (const set of result) {
+        if (set.set_type === 'core' || set.set_type === 'commander' || set.set_type === 'draft_innovation' || set.set_type === 'masters' || set.set_type === 'expansion') {
           this.sets.push(set);
         }
       }
-    })
+    });
   }
 
-  addNewCollection(name: string){
+  addNewCollection(name: string) {
     this.collections.newCollection(name);
-    
+
   }
 
-  
-  async loginUser(){
+
+  async loginUser() {
     await this.user.login();
     this.collections.loadStorage();
   }
 
-  async logoutUser(){
+  async logoutUser() {
     await this.user.logOut();
     this.collections.loadStorage();
   }
@@ -51,8 +51,7 @@ export class HeaderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result != null)
-      {
+      if (result != null) {
         console.log('The dialog was closed');
         this.deckname = result;
         this.addNewCollection(this.deckname);
@@ -61,5 +60,5 @@ export class HeaderComponent implements OnInit {
 
     });
   }
-  
+
 }

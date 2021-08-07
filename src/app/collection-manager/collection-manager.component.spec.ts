@@ -6,20 +6,5 @@ describe('CollectionManagerComponent', () => {
   let component: CollectionManagerComponent;
   let fixture: ComponentFixture<CollectionManagerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionManagerComponent ]
-    })
-    .compileComponents();
-  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionManagerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

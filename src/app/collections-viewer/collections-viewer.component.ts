@@ -16,18 +16,18 @@ import { ImportCollectionDialogComponent } from '../import-collection-dialog/imp
 })
 export class CollectionsViewerComponent implements OnInit {
 
-  confirmed: boolean = true;
-  deckname: string = "";
-  deckList: string = "";
+  confirmed = true;
+  deckname = '';
+  deckList = '';
   cards: string[] = [];
   deckListCards: string[] = [];
-  searchParam: string = "";
-  constructor(public collections: CollectionController, public changeDetector: ChangeDetectorRef, public dialog: MatDialog, private dataService: DataStorageService, public user: UserService) { 
+  searchParam = '';
+  constructor(public collections: CollectionController, public changeDetector: ChangeDetectorRef, public dialog: MatDialog, private dataService: DataStorageService, public user: UserService) {
     this.collections.loadStorage();
     Catalog.cardNames().then(results => {
-      for(let card of results){
+      for (const card of results) {
         this.cards.push(card);
-      } 
+      }
     });
   }
 
@@ -38,12 +38,11 @@ export class CollectionsViewerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result === true)
-      {
+      if (result === true) {
         console.log('The dialog was closed');
         this.collections.deleteCollection(collectionToDelete);
       }
-      
+
     });
   }
 
@@ -54,15 +53,15 @@ export class CollectionsViewerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        if(result != null && result != ""){
+        if (result != null && result !== '') {
           this.deckname = result;
           console.log('The dialog was closed');
           collectionToDelete.name = this.deckname;
           this.collections.updateStorage();
         }
-      
-      
-      
+
+
+
     });
   }
 
@@ -72,30 +71,29 @@ export class CollectionsViewerComponent implements OnInit {
       data: {deckList: this.deckList}
     });
 
-    dialogRef.afterClosed().subscribe(result => 
-        {
-        if(result != null && result != ""){
-          this.searchParam = "";
-          this.deckList = "";
+    dialogRef.afterClosed().subscribe(result => {
+        if (result != null && result != '') {
+          this.searchParam = '';
+          this.deckList = '';
           this.deckList = result;
           console.log('The dialog was closed');
-          if(this.deckList.includes("1 ")){
-            this.deckListCards = this.deckList.split("1 ");
-          }else if(this.deckList.includes("1x ")){
-            this.deckListCards = this.deckList.split("1x ");
+          if (this.deckList.includes('1 ')) {
+            this.deckListCards = this.deckList.split('1 ');
+          } else if (this.deckList.includes('1x ')) {
+            this.deckListCards = this.deckList.split('1x ');
           }
-          for(let card of this.deckListCards){
-            if(card != ""){
-              if(this.deckListCards.indexOf(card) === this.deckListCards.length - 1){
+          for (const card of this.deckListCards) {
+            if (card !== '') {
+              if (this.deckListCards.indexOf(card) === this.deckListCards.length - 1) {
                 this.searchParam = this.searchParam.concat(this.searchParam, '!"' + card.trim() + '"');
-              }else{
+              } else {
                 this.searchParam = this.searchParam.concat('!"' + card.trim() + '" OR ');
               }
-            }         
+            }
           }
 
           Cards.search(this.searchParam).waitForAll().then(cardResult => {
-            for(let c of cardResult){
+            for (const c of cardResult) {
               this.collections.addToCollection(c, collectionToImportTo);
 
             }
@@ -109,7 +107,7 @@ export class CollectionsViewerComponent implements OnInit {
 
 
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 

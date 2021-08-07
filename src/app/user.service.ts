@@ -21,25 +21,25 @@ export class UserService {
     }),
   );*/
 
-  uid: string = "Not logged in";
-  displayName: string = "Null";
-  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase){
+  uid = 'Not logged in';
+  displayName = 'Null';
+  constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
   }
 
 
-  async login(){
+  async login() {
     await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
-    if(firebase.auth().currentUser.uid !== null){
+    if (firebase.auth().currentUser.uid !== null) {
       this.uid = firebase.auth().currentUser.uid;
       this.displayName = firebase.auth().currentUser.displayName;
-    }else{
-      this.uid = "Not logged in";
-      console.log("Oopsy!");
+    } else {
+      this.uid = 'Not logged in';
+      console.log('Oopsy!');
     }
 
   }
-  async logOut(){
+  async logOut() {
     await this.afAuth.auth.signOut();
-    this.uid = "Not logged in";
+    this.uid = 'Not logged in';
   }
 }

@@ -6,20 +6,4 @@ describe('RenameDeckDialogComponent', () => {
   let component: RenameDeckDialogComponent;
   let fixture: ComponentFixture<RenameDeckDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RenameDeckDialogComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RenameDeckDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
